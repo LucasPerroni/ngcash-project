@@ -16,6 +16,7 @@ async function SignIn(req: Request, res: Response) {
   const token = await authService.generateToken(user)
 
   delete user.password
+  delete user.account
   res.status(200).send({ token, user })
 }
 

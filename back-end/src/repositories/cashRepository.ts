@@ -1,3 +1,5 @@
+import { Transactions } from "@prisma/client"
+
 import { prisma } from "../config/database.js"
 
 async function findAccountByUserId(id: number) {
@@ -8,8 +10,23 @@ async function findAccountByUserId(id: number) {
   return account
 }
 
+async function createTransaction(data: Omit<Transactions, "id" | "createdAt">) {
+  await prisma.$transaction(async (tx) => {
+    await tx.accounts.update({
+      data: { balance: { decrement: data.value } },
+      where: { id: data.creditedAccountId },
+    })
+    await tx.accounts.update({
+      data: { balance: { increment: data.value } },
+      where: { id: data.debitedAccountId },
+    })
+    await tx.transactions.create({ data })
+  })
+}
+
 const cashRepository = {
   findAccountByUserId,
+  createTransaction,
 }
 
 export default cashRepository

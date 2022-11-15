@@ -12,7 +12,7 @@ async function createUser(data: Users) {
 async function findUserByUserName(username: string) {
   const user = await prisma.users.findUnique({
     where: { username },
-    select: { id: true, username: true, password: true },
+    select: { id: true, username: true, password: true, account: { select: { id: true } } },
   })
   return user
 }
