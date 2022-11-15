@@ -6,8 +6,12 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/src/server.js",
-    "dev": "nodemon src/server.ts"
+    "start": "npm run prisma:all && node dist/src/server.js",
+    "dev": "nodemon src/server.ts",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:seed": "prisma db seed",
+    "prisma:all": "npm run prisma:deploy && prisma generate && npm run prisma:seed"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
