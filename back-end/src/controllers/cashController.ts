@@ -23,9 +23,16 @@ async function cashOut(req: Request, res: Response) {
   res.sendStatus(201)
 }
 
+async function viewTransactions(req: Request, res: Response) {
+  const { userId } = res.locals
+  const transactions = await cashService.getTransactionsByUserId(userId)
+  res.status(200).send(transactions)
+}
+
 const cashController = {
   getAccount,
   cashOut,
+  viewTransactions,
 }
 
 export default cashController

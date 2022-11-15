@@ -9,5 +9,6 @@ const cashRouter = Router()
 
 cashRouter.get("/cash", validateToken, cashController.getAccount)
 cashRouter.post("/cash/transaction", validateToken, validateSchema(cashOutSchema), cashController.cashOut)
+cashRouter.get("/cash/transaction", validateToken, cashController.viewTransactions)
 
 export default cashRouter

@@ -3,6 +3,7 @@ import { Transactions } from "@prisma/client"
 import { Error } from "../middlewares/errorHandler.js"
 import authRepository from "../repositories/authRepository.js"
 import cashRepository from "../repositories/cashRepository.js"
+import cashUtils from "../utils/cashUtils.js"
 
 async function findAccountByUserId(id: number) {
   const account = await cashRepository.findAccountByUserId(id)
@@ -33,10 +34,18 @@ async function createTransaction(data: Omit<Transactions, "id" | "createdAt">) {
   await cashRepository.createTransaction(data)
 }
 
+async function getTransactionsByUserId(id: number) {
+  const { account } = await cashRepository.findAccountByUserId(id)
+  const transactions = await cashRepository.getTransactionsByAccountId(account.id)
+
+  return cashUtils.formatTransactions(transactions)
+}
+
 const cashService = {
   findAccountByUserId,
   validateUsers,
   createTransaction,
+  getTransactionsByUserId,
 }
 
 export default cashService

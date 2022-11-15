@@ -24,9 +24,44 @@ async function createTransaction(data: Omit<Transactions, "id" | "createdAt">) {
   })
 }
 
+async function getTransactionsByAccountId(id: number) {
+  const transactions = await prisma.accounts.findUnique({
+    where: { id },
+    select: {
+      TransactionsCredit: {
+        select: {
+          id: true,
+          value: true,
+          creditedAccountId: true,
+          debitedAccountId: true,
+          credited: { select: { Users: { select: { username: true } } } },
+          debited: { select: { Users: { select: { username: true } } } },
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+      },
+      TransactionsDebit: {
+        select: {
+          id: true,
+          value: true,
+          creditedAccountId: true,
+          debitedAccountId: true,
+          credited: { select: { Users: { select: { username: true } } } },
+          debited: { select: { Users: { select: { username: true } } } },
+          createdAt: true,
+        },
+        orderBy: { createdAt: "desc" },
+      },
+    },
+  })
+
+  return transactions
+}
+
 const cashRepository = {
   findAccountByUserId,
   createTransaction,
+  getTransactionsByAccountId,
 }
 
 export default cashRepository
