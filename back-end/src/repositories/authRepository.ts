@@ -9,8 +9,17 @@ async function createUser(data: Users) {
   })
 }
 
+async function findUserByUserName(username: string) {
+  const user = await prisma.users.findUnique({
+    where: { username },
+    select: { id: true, username: true, password: true },
+  })
+  return user
+}
+
 const authRepository = {
   createUser,
+  findUserByUserName,
 }
 
 export default authRepository

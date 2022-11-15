@@ -9,8 +9,19 @@ async function SignUp(req: Request, res: Response) {
   res.sendStatus(201)
 }
 
+async function SignIn(req: Request, res: Response) {
+  const body: Users = req.body
+
+  const user = await authService.findUser(body)
+  const token = await authService.generateToken(user)
+
+  delete user.password
+  res.status(200).send({ token, user })
+}
+
 const authController = {
   SignUp,
+  SignIn,
 }
 
 export default authController
