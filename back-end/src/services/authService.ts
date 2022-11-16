@@ -7,6 +7,12 @@ import { Error } from "../middlewares/errorHandler.js"
 
 async function createUser(data: Users) {
   data.password = bcrypt.hashSync(data.password, Number(process.env.BCRYPT_SALT))
+
+  const user = await authRepository.findUserByUserName(data.username)
+  if (user) {
+    Error.errorConflict("This username is already being used")
+  }
+
   await authRepository.createUser(data)
 }
 
