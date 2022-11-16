@@ -1,13 +1,16 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { Main, Logo, Auth } from "./styles"
 import authRepository from "../../repositories/authRepository"
+import UserContext from "../../contexts/UserContext"
 
 export default function SignIn() {
+  const { setUser } = useContext(UserContext)
+  const navigate = useNavigate()
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
-  const navigate = useNavigate()
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -20,7 +23,9 @@ export default function SignIn() {
 
     authRepository
       .signIn(data)
-      .then((response) => {
+      .then(({ data }) => {
+        localStorage.setItem("ngcash-user", JSON.stringify(data))
+        setUser(data)
         navigate("/home")
       })
       .catch(({ response }) => {
