@@ -4,7 +4,7 @@ import UserContext from "../../contexts/UserContext"
 import Navigation from "./Navigation"
 import Transactions from "./Transactions"
 import Buttons from "./Buttons"
-import styled from "styled-components"
+import { Wrapper } from "./style"
 
 import cashRepository from "../../repositories/cashRepository"
 
@@ -36,7 +36,7 @@ export default function Home() {
 
   return (
     <>
-      <Navigation user={user} />
+      <Navigation />
 
       <Wrapper>
         {transactions.transactions ? (
@@ -45,21 +45,9 @@ export default function Home() {
             <Buttons />
           </>
         ) : (
-          <h1 style={{ fontSize: "30px" }}>Loading...</h1>
+          <h1 style={{ fontSize: "20px" }}>Loading...</h1>
         )}
       </Wrapper>
     </>
   )
 }
-
-const Wrapper = styled.div`
-  position: absolute;
-  margin-top: 56px;
-
-  display: flex;
-  justify-content: space-between;
-
-  height: calc(100% - 56px);
-  width: 100%;
-  padding: 30px;
-`

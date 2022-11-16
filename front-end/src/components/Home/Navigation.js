@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 
@@ -10,8 +10,10 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import Logout from "@mui/icons-material/Logout"
 
 import stringAvatar from "../../utils/avatarColor"
+import UserContext from "../../contexts/UserContext"
 
-export default function Navigation({ user }) {
+export default function Navigation() {
+  const { user } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [anchorEl, setAnchorEl] = useState(null)

@@ -15,7 +15,7 @@ export default function Transactions({ user, allTransactions }) {
 
     if (name === "Date") {
       setTransactions(allTransactions.transactions)
-    } else if (name === "Debited") {
+    } else if (name === "Cash-in") {
       setTransactions(allTransactions.debited)
     } else {
       setTransactions(allTransactions.credited)
@@ -33,7 +33,7 @@ export default function Transactions({ user, allTransactions }) {
         </div>
 
         <div>
-          {["Date", "Debited", "Credited"].map((name) => {
+          {["Date", "Cash-in", "Cash-out"].map((name) => {
             return (
               <StyledButton
                 key={name}
